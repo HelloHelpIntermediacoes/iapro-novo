@@ -33,34 +33,29 @@ const robosData: Robo[] = [
   { id: 17, nome: 'Gerente Clientes', descricao: 'Gestão de relacionamento e funil.', imagem: '/imagens/robo17.png', categoria: 'Vendas', link: '/robos/gerente-clientes' },
   { id: 18, nome: 'Vendedor Automacoes', descricao: 'Scripts para WhatsApp e vendas.', imagem: '/imagens/robo18.png', categoria: 'Vendas', link: '/robos/vendedor-automacoes' },
   { id: 19, nome: 'Vendedor Marketplace', descricao: 'Textos prontos para vendas em plataformas.', imagem: '/imagens/robo19.png', categoria: 'Vendas', link: '/robos/vendedor-marketplace' },
-  { id: 20, nome: 'Consultor Nome Marca', descricao: 'Naming e identidade de marca.', imagem: '/imagens/robo20.png', categoria: 'Marketing', link: '/robos/consultor-nome-marca' },
+  { id: 20, nome: 'Roterista', descricao: 'Naming e identidade de marca.', imagem: '/imagens/robo20.png', categoria: 'Marketing', link: '/robos/roteirista-viral' },
 ];
 
 const categorias = ['Todos', 'Marketing', 'Vendas', 'Estratégia', 'Atendimento'];
 
 export default function Robos() {
   const [filtro, setFiltro] = useState('Todos');
-
   const robosFiltrados =
-    filtro === 'Todos'
-      ? robosData
-      : robosData.filter((robo) => robo.categoria === filtro);
+    filtro === 'Todos' ? robosData : robosData.filter((robo) => robo.categoria === filtro);
 
   return (
     <Layout>
       <div className="pb-12">
-        <h1 className="text-3xl font-bold text-[#1746a2] mb-6">🤖 Lista de Robôs Inteligentes</h1>
-
         <div className="flex gap-3 flex-wrap mb-8">
           {categorias.map((cat) => (
             <button
               key={cat}
               onClick={() => setFiltro(cat)}
-              className={`px-5 py-2 rounded-full text-sm font-medium border ${
+              className={`px-5 py-2 rounded-full text-sm font-medium border shadow-md transition-transform duration-300 ${
                 filtro === cat
                   ? 'bg-[#1746a2] text-white border-[#1746a2]'
                   : 'bg-white text-[#1746a2] border-[#1746a2]'
-              } hover:bg-[#102c57] hover:text-white transition`}
+              } hover:brightness-110 hover:scale-105`}
             >
               {cat}
             </button>
@@ -68,29 +63,64 @@ export default function Robos() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {robosFiltrados.map((robo) => (
-            <div
-              key={robo.id}
-              className="bg-white border border-[#f4c95d] rounded-xl shadow hover:shadow-lg p-4 text-center transition-all"
-            >
-              <div className="w-full h-[180px] relative mb-4">
-                <Image
-                  src={robo.imagem}
-                  alt={robo.nome}
-                  layout="fill"
-                  objectFit="contain"
-                  className="rounded-md"
-                />
+          {robosFiltrados.map((robo) =>
+            robo.nome === 'Roterista' ? (
+              <div key={robo.id} className="col-span-1 sm:col-span-2 flex flex-col sm:flex-row gap-4">
+                {/* Card do Roteirista */}
+                <div className="bg-white rounded-2xl shadow-md border border-pink-200 p-4 text-center flex-1 hover:shadow-xl transition-all">
+                  <div className="w-full h-[220px] relative mb-4 rounded-xl overflow-hidden">
+                    <Image
+                      src={robo.imagem}
+                      alt={robo.nome}
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-xl"
+                    />
+                  </div>
+                  <h3 className="text-lg font-bold text-[#1746a2] mb-1">{robo.nome}</h3>
+                  <p className="text-sm text-gray-600 mb-4 px-2">{robo.descricao}</p>
+                  <Link href={robo.link}>
+                    <button className="bg-yellow-400 text-white px-5 py-2 rounded-full font-medium hover:brightness-110 transition-all">
+                      🚀 Acessar Robô
+                    </button>
+                  </Link>
+                </div>
+
+                {/* Bloco de Bônus */}
+                <div className="bg-yellow-400 rounded-2xl p-5 flex-1 text-center shadow-md border border-yellow-500 flex flex-col justify-center">
+                  <h4 className="text-md font-bold text-black mb-2">🎁 BÔNUS</h4>
+                  <p className="text-sm text-black mb-4">Script exclusivo de presente para turbinar sua jornada com IA.</p>
+                  <Link href="/bonus">
+                    <button className="bg-black text-white px-4 py-2 rounded-full hover:brightness-110 transition-all text-sm w-fit mx-auto">
+                      Ver Bônus
+                    </button>
+                  </Link>
+                </div>
               </div>
-              <h3 className="text-lg font-semibold text-[#1746a2]">{robo.nome}</h3>
-              <p className="text-sm text-gray-600 mt-1 mb-4">{robo.descricao}</p>
-              <Link href={robo.link}>
-                <button className="bg-[#f4c95d] text-[#1a1a1a] px-4 py-2 rounded-full font-medium hover:bg-yellow-400 transition">
-                  Acessar Robô
-                </button>
-              </Link>
-            </div>
-          ))}
+            ) : (
+              <div
+                key={robo.id}
+                className="bg-white rounded-2xl shadow-md border border-yellow-200 p-4 text-center hover:shadow-xl transition-all"
+              >
+                <div className="w-full h-[220px] relative mb-4 rounded-xl overflow-hidden">
+                  <Image
+                    src={robo.imagem}
+                    alt={robo.nome}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-xl"
+                  />
+                </div>
+                <h3 className="text-lg font-bold text-[#1746a2] mb-1">{robo.nome}</h3>
+                <p className="text-sm text-gray-600 mb-4 px-2">{robo.descricao}</p>
+                <Link href={robo.link}>
+                  <button className="bg-yellow-400 text-white px-5 py-2 rounded-full font-medium hover:brightness-110 transition-all">
+                    🚀 Acessar Robô
+                  </button>
+                </Link>
+              </div>
+            )
+          )}
         </div>
       </div>
     </Layout>

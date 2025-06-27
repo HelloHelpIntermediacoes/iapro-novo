@@ -48,7 +48,7 @@ export default function HomePage() {
             acessíveis e prontas para gerar renda e produtividade.
           </p>
           <a
-            href="/robos"
+            href="/login"
             className="bg-[#f4c95d] text-[#1a1a1a] font-bold py-3 px-6 rounded-full shadow-lg hover:bg-[#eec845] hover:shadow-xl transition-all duration-300"
           >
             COMEÇAR AGORA

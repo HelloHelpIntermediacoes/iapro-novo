@@ -21,7 +21,7 @@ const Topbar = () => {
   return (
     <header className="bg-white shadow-md h-20 flex items-center justify-between px-6 relative">
       {/* Nome da Página */}
-      <h1 className="text-xl font-bold text-[#1746a2]">Painel de Controle</h1>
+      <h1 className="text-xl font-bold text-[#1746a2]"></h1>
 
       {/* Área do Usuário */}
       <div className="relative" ref={dropdownRef}>

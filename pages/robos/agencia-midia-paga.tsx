@@ -28,32 +28,34 @@ export default function AgenciaMidiaPaga() {
 
   return (
     <Layout>
-      <div className="max-w-3xl mx-auto py-10 px-4">
-        <h1 className="text-3xl font-bold text-[#1746a2] mb-4">🤖 Agência Mídia Paga</h1>
-        <p className="mb-6 text-gray-700">
-          Gere um script completo para rodar campanhas pagas com IA, incluindo criação de anúncios, verba, canais e otimizações.
+      <div className="max-w-3xl mx-auto py-12 px-6 bg-white shadow-xl rounded-xl">
+        <h1 className="text-4xl font-bold text-[#1746a2] mb-6">🚀 Agência de Mídia Paga com IA</h1>
+
+        <p className="text-lg text-gray-700 mb-8">
+          Gere automaticamente uma estratégia completa de tráfego pago com inteligência artificial. Ideal para lançamentos,
+          campanhas e vendas digitais com alto impacto.
         </p>
 
-        <div className="space-y-4 mb-6">
+        <div className="space-y-6 mb-8">
           <div>
-            <label className="block font-medium mb-1">Tema da campanha:</label>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">📝 Tema da campanha</label>
             <input
               type="text"
-              className="w-full border border-gray-300 rounded px-3 py-2"
               value={tema}
               onChange={(e) => setTema(e.target.value)}
-              placeholder="Ex: Lançamento de produto fitness"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1746a2]"
+              placeholder="Ex: Lançamento de suplemento para emagrecimento"
             />
           </div>
 
           <div>
-            <label className="block font-medium mb-1">Público-alvo:</label>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">🎯 Público-alvo</label>
             <input
               type="text"
-              className="w-full border border-gray-300 rounded px-3 py-2"
               value={publico}
               onChange={(e) => setPublico(e.target.value)}
-              placeholder="Ex: Mulheres de 25 a 40 anos"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1746a2]"
+              placeholder="Ex: Homens entre 25 e 40 anos que praticam musculação"
             />
           </div>
         </div>
@@ -62,9 +64,9 @@ export default function AgenciaMidiaPaga() {
           href={linkGPT}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block bg-[#f4c95d] hover:bg-yellow-400 text-black font-semibold px-6 py-3 rounded-lg transition"
+          className="inline-block w-full text-center bg-[#f4c95d] hover:bg-yellow-400 text-[#1a1a1a] font-bold text-lg px-6 py-3 rounded-lg transition duration-300"
         >
-          Acessar no ChatGPT com Script Gerado
+          🔗 Acessar no ChatGPT com Script Gerado
         </a>
       </div>
     </Layout>

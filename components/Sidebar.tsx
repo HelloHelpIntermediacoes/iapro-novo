@@ -35,12 +35,7 @@ const Sidebar = () => {
         >
           <FaRobot /> Todos os Robôs
         </Link>
-        <Link
-          href="/planos"
-          className="flex items-center gap-3 px-2 py-2 rounded-md hover:text-[#1746a2] font-medium transition"
-        >
-          <FaStar /> Planos
-        </Link>
+        
       </nav>
 
       {/* Rodapé - Assistente Júnior */}

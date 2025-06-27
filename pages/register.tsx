@@ -1,6 +1,11 @@
 'use client';
+
 import { useState } from 'react';
 import Layout from '@/components/Layout';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase/firebase';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
   const [nome, setNome] = useState('');
@@ -8,8 +13,9 @@ export default function Register() {
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [erro, setErro] = useState('');
+  const router = useRouter();
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (senha !== confirmarSenha) {
@@ -17,11 +23,36 @@ export default function Register() {
       return;
     }
 
-    // Salva no localStorage apenas para teste (depois integramos com backend)
-    localStorage.setItem('usuarioIAPro', JSON.stringify({ nome, email }));
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+      const usuarioFirebase = userCredential.user;
 
-    // Redireciona para o link de pagamento (exemplo abaixo com PayPal)
-    window.location.href = 'https://www.paypal.com/paypalme/sualinkexemplo';
+      const usuario = {
+        uid: usuarioFirebase.uid,
+        nome,
+        email,
+        tipo: 'usuario', // padrão
+        criadoEm: new Date(),
+      };
+
+      // Salva no Firestore
+      const db = getFirestore();
+      const docRef = doc(db, 'usuarios', usuarioFirebase.uid);
+      await setDoc(docRef, usuario);
+
+      // Salva no localStorage
+      localStorage.setItem('usuarioIAPro', JSON.stringify(usuario));
+
+      // Redireciona para o pagamento
+      window.location.href = 'https://www.paypal.com/paypalme/sualinkexemplo'; // 🔁 substitua pelo seu link real
+
+    } catch (error: any) {
+      console.error('Erro no registro:', error);
+      const mensagem = error?.message?.includes('email-already') 
+        ? 'E-mail já cadastrado. Tente outro.'
+        : 'Erro ao criar conta.';
+      setErro(mensagem);
+    }
   };
 
   return (

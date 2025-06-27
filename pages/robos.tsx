@@ -67,7 +67,7 @@ export default function Robos() {
             robo.nome === 'Roterista' ? (
               <div key={robo.id} className="col-span-1 sm:col-span-2 flex flex-col sm:flex-row gap-4">
                 {/* Card do Roteirista */}
-                <div className="bg-white rounded-2xl shadow-md border border-pink-200 p-4 text-center flex-1 hover:shadow-xl transition-all">
+                <div className="bg-white rounded-2xl shadow-md border border-yellow-200 p-4 text-center flex-1 hover:shadow-xl transition-all">
                   <div className="w-full h-[220px] relative mb-4 rounded-xl overflow-hidden">
                     <Image
                       src={robo.imagem}

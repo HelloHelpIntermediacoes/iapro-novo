@@ -5,13 +5,15 @@ import { FaUserCircle, FaCogs, FaSignOutAlt } from 'react-icons/fa';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { firebaseConfig } from '../firebase/firebase';
 import { getApps, initializeApp, getApp } from 'firebase/app';
+import { useRouter } from 'next/navigation';
 
 const Topbar = () => {
   const [open, setOpen] = useState(false);
   const [nomeUsuario, setNomeUsuario] = useState('Usuário');
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
-  // Firebase app e Firestore
+  // Firebase App e Firestore
   const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
   const db = getFirestore(app);
 
@@ -26,9 +28,11 @@ const Topbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Busca o nome atualizado no Firestore
+  // Busca o nome atualizado do Firestore
   useEffect(() => {
     const fetchNome = async () => {
+      if (typeof window === 'undefined') return;
+
       const userData = localStorage.getItem('usuarioIAPro');
       if (userData) {
         try {
@@ -47,14 +51,19 @@ const Topbar = () => {
       }
     };
     fetchNome();
-  }, []);
+  }, [db]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('usuarioIAPro');
+    router.push('/login');
+  };
 
   return (
-    <header className="bg-white shadow-md h-20 flex items-center justify-between px-6 relative">
-      {/* Título ou logo (pode ser adicionado depois) */}
-      <h1 className="text-xl font-bold text-[#1746a2]"></h1>
+    <header className="bg-white shadow-md h-20 flex items-center justify-between px-6 relative z-50">
+      {/* Logo ou título da plataforma */}
+      <h1 className="text-xl font-bold text-[#1746a2]">IA Pro</h1>
 
-      {/* Área do Usuário com dropdown */}
+      {/* Área do usuário */}
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setOpen(!open)}
@@ -65,22 +74,19 @@ const Topbar = () => {
         </button>
 
         {open && (
-          <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+          <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-200 rounded-md shadow-lg z-50">
             <a
               href="/configuracoes"
               className="flex items-center gap-2 px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
             >
               <FaCogs /> Configurações
             </a>
-            <a
-              href="/logout"
-              className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-              onClick={() => {
-                localStorage.removeItem('usuarioIAPro');
-              }}
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
             >
               <FaSignOutAlt /> Sair
-            </a>
+            </button>
           </div>
         )}
       </div>

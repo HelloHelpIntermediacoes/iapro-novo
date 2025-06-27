@@ -23,7 +23,7 @@ export default function Login() {
       const userCredential = await signInWithEmailAndPassword(auth, email, senha);
       const usuario = userCredential.user;
 
-      // ⚠️ Verificação fixa para conta admin
+      // ⚠️ Verificação direta para conta admin (fixa)
       if (email === 'fernanda@admin.com' && senha === '102034') {
         const usuarioAdmin = {
           uid: usuario.uid,
@@ -50,14 +50,17 @@ export default function Login() {
         uid: usuario.uid,
         email: usuario.email,
         nome: dados?.nome || 'Usuário',
-        tipo: dados?.tipo || 'usuario', // admin, usuario, etc.
+        tipo: dados?.tipo || 'usuario', // Ex: admin, usuario
+        acesso: dados?.acesso || 'restrito', // acesso: 'liberado' ou 'restrito'
       };
 
       localStorage.setItem('usuarioIAPro', JSON.stringify(usuarioCompleto));
 
-      // Redireciona com base no tipo
+      // Redirecionamento com base no tipo e acesso
       if (usuarioCompleto.tipo === 'admin') {
         router.push('/admin');
+      } else if (usuarioCompleto.acesso === 'liberado') {
+        router.push('/dashboard');
       } else {
         setAcessoRestrito(true);
       }
@@ -128,7 +131,7 @@ export default function Login() {
           <div className="bg-white p-10 rounded-2xl shadow-lg text-center max-w-md mx-auto border-2 border-[#f4c95d]">
             <h2 className="text-xl font-bold mb-4 text-[#1746a2]">🚀 Acesso Premium Necessário</h2>
             <p className="mb-4 text-gray-700">
-              Para desbloquear todos os robôs e integrar seu assistente Júnior ao GPT, ative o acesso premium com investimento de apenas <strong>12x no PayPal</strong>.
+              Para desbloquear todos os robôs e integrar seu assistente Júnior ao GPT, ative o acesso premium com investimento de apenas <strong>R$ 97 via PayPal</strong>.
             </p>
             <a
               href={linkPagamento}

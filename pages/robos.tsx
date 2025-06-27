@@ -1,8 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 type Robo = {
   id: number;
@@ -40,6 +41,22 @@ const categorias = ['Todos', 'Marketing', 'Vendas', 'Estratégia', 'Atendimento'
 
 export default function Robos() {
   const [filtro, setFiltro] = useState('Todos');
+  const router = useRouter();
+
+  // ✅ VERIFICA LOGIN E ACESSO
+  useEffect(() => {
+    const userData = localStorage.getItem('usuarioIAPro');
+    if (!userData) {
+      router.push('/login');
+      return;
+    }
+
+    const usuario = JSON.parse(userData);
+    if (usuario.acesso !== 'liberado') {
+      router.push('/login'); // ou '/bloqueado'
+    }
+  }, [router]);
+
   const robosFiltrados =
     filtro === 'Todos' ? robosData : robosData.filter((robo) => robo.categoria === filtro);
 
@@ -66,7 +83,7 @@ export default function Robos() {
           {robosFiltrados.map((robo) =>
             robo.nome === 'Roterista' ? (
               <div key={robo.id} className="col-span-1 sm:col-span-2 flex flex-col sm:flex-row gap-4">
-                {/* Card do Roteirista */}
+                {/* Card Roterista */}
                 <div className="bg-white rounded-2xl shadow-md border border-yellow-200 p-4 text-center flex-1 hover:shadow-xl transition-all">
                   <div className="w-full h-[220px] relative mb-4 rounded-xl overflow-hidden">
                     <Image
@@ -86,7 +103,7 @@ export default function Robos() {
                   </Link>
                 </div>
 
-                {/* Bloco de Bônus */}
+                {/* Bônus */}
                 <div className="bg-yellow-400 rounded-2xl p-5 flex-1 text-center shadow-md border border-yellow-500 flex flex-col justify-center">
                   <h4 className="text-md font-bold text-black mb-2">🎁 BÔNUS</h4>
                   <p className="text-sm text-black mb-4">Script exclusivo de presente para turbinar sua jornada com IA.</p>

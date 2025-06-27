@@ -32,23 +32,23 @@ export default function Register() {
         nome,
         email,
         tipo: 'usuario', // padrão
+        acesso: 'pendente', // 🔒 ainda não liberado
         criadoEm: new Date(),
       };
 
-      // Salva no Firestore
       const db = getFirestore();
       const docRef = doc(db, 'usuarios', usuarioFirebase.uid);
       await setDoc(docRef, usuario);
 
-      // Salva no localStorage
+      // Salva temporariamente no localStorage
       localStorage.setItem('usuarioIAPro', JSON.stringify(usuario));
 
-      // Redireciona para o pagamento
-      window.location.href = 'https://www.paypal.com/paypalme/sualinkexemplo'; // 🔁 substitua pelo seu link real
+      // Redireciona para o pagamento (⚠️ substitua pelo link real do PayPal)
+      window.location.href = 'https://www.paypal.com/paypalme/SEULINKAQUI';
 
     } catch (error: any) {
       console.error('Erro no registro:', error);
-      const mensagem = error?.message?.includes('email-already') 
+      const mensagem = error?.message?.includes('email-already')
         ? 'E-mail já cadastrado. Tente outro.'
         : 'Erro ao criar conta.';
       setErro(mensagem);

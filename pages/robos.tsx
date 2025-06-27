@@ -1,6 +1,8 @@
+'use client';
 import React, { useState } from 'react';
-import Layout from '../components/Layout';
+import Layout from '@/components/Layout';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type Robo = {
   id: number;
@@ -8,32 +10,33 @@ type Robo = {
   descricao: string;
   imagem: string;
   categoria: string;
+  link: string;
 };
 
 const robosData: Robo[] = [
-  { id: 1, nome: 'Roteirista Viral', descricao: 'Gera roteiros para vídeos virais.', imagem: '/imagens/robo1.png', categoria: 'Marketing' },
-  { id: 2, nome: 'Copy de Vendas', descricao: 'Textos de vendas persuasivos.', imagem: '/imagens/robo2.png', categoria: 'Vendas' },
-  { id: 3, nome: 'Proposta Irresistível', descricao: 'Gera propostas que encantam.', imagem: '/imagens/robo3.png', categoria: 'Vendas' },
-  { id: 4, nome: 'Script para Podcast', descricao: 'Roteiros completos para podcasts.', imagem: '/imagens/robo4.png', categoria: 'Estratégia' },
-  { id: 5, nome: 'Social Mídia IA', descricao: 'Criação de posts automáticos.', imagem: '/imagens/robo5.png', categoria: 'Marketing' },
-  { id: 6, nome: 'Instagram Reels', descricao: 'Ideias para vídeos curtos virais.', imagem: '/imagens/robo6.png', categoria: 'Marketing' },
-  { id: 7, nome: 'Designer Express', descricao: 'Sugestões visuais para seu conteúdo.', imagem: '/imagens/robo7.png', categoria: 'Marketing' },
-  { id: 8, nome: 'Atendimento Simples', descricao: 'Respostas automáticas para clientes.', imagem: '/imagens/robo8.png', categoria: 'Atendimento' },
-  { id: 9, nome: 'Pitch Vendedor', descricao: 'Pitches rápidos e prontos.', imagem: '/imagens/robo9.png', categoria: 'Vendas' },
-  { id: 10, nome: 'TikTok Mini Roteiros', descricao: 'Gatilhos para vídeos curtos.', imagem: '/imagens/robo10.png', categoria: 'Marketing' },
-  { id: 11, nome: 'Consultor Estratégico', descricao: 'Posicionamento e ideias estratégicas.', imagem: '/imagens/robo11.png', categoria: 'Estratégia' },
-  { id: 12, nome: 'Consultor de Marca', descricao: 'Crie identidade visual com IA.', imagem: '/imagens/robo12.png', categoria: 'Estratégia' },
-  { id: 13, nome: 'Anúncio Pronto', descricao: 'Textos de anúncio em segundos.', imagem: '/imagens/robo13.png', categoria: 'Marketing' },
-  { id: 14, nome: 'Funil IA', descricao: 'Monte um funil de vendas inteligente.', imagem: '/imagens/robo14.png', categoria: 'Estratégia' },
-  { id: 15, nome: 'Conversão Rápida', descricao: 'Foco em fechar vendas direto.', imagem: '/imagens/robo15.png', categoria: 'Vendas' },
-  { id: 16, nome: 'Robo Zap Turbo', descricao: 'Textos prontos para WhatsApp.', imagem: '/imagens/robo16.png', categoria: 'Atendimento' },
-  { id: 17, nome: 'Gerador de Portfólio', descricao: 'Monte seu portfólio automaticamente.', imagem: '/imagens/robo17.png', categoria: 'Estratégia' },
-  { id: 18, nome: 'E-mail Marketing IA', descricao: 'Campanhas de e-mail com IA.', imagem: '/imagens/robo18.png', categoria: 'Marketing' },
-  { id: 19, nome: 'Organizador de Ideias', descricao: 'Organize projetos e temas com IA.', imagem: '/imagens/robo19.png', categoria: 'Estratégia' },
-  { id: 20, nome: 'Nome para Negócio', descricao: 'Sugestões criativas de nomes.', imagem: '/imagens/robo20.png', categoria: 'Estratégia' },
+  { id: 1, nome: 'Agência Mídia Paga', descricao: 'Campanhas com tráfego pago automatizadas por IA.', imagem: '/imagens/robo1.png', categoria: 'Marketing', link: '/robos/agencia-midia-paga' },
+  { id: 2, nome: 'Copy de Vendas', descricao: 'Textos persuasivos para aumentar conversões.', imagem: '/imagens/robo2.png', categoria: 'Vendas', link: '/robos/copy-de-vendas' },
+  { id: 3, nome: 'Proposta Irresistível', descricao: 'Criação de propostas comerciais cativantes.', imagem: '/imagens/robo3.png', categoria: 'Vendas', link: '/robos/proposta-irresistivel' },
+  { id: 4, nome: 'Script para Podcast', descricao: 'Roteiros completos para podcasts profissionais.', imagem: '/imagens/robo4.png', categoria: 'Estratégia', link: '/robos/script-para-podcast' },
+  { id: 5, nome: 'Planejador Estratégico', descricao: 'Criação de planos estratégicos com IA.', imagem: '/imagens/robo5.png', categoria: 'Estratégia', link: '/robos/planejador-estrategico' },
+  { id: 6, nome: 'Social Media IA', descricao: 'Posts automáticos para redes sociais.', imagem: '/imagens/robo6.png', categoria: 'Marketing', link: '/robos/social-media-ia' },
+  { id: 7, nome: 'Especialista YouTube', descricao: 'Scripts e estratégias para vídeos no YouTube.', imagem: '/imagens/robo7.png', categoria: 'Marketing', link: '/robos/especialista-youtube' },
+  { id: 8, nome: 'Designer Nome Marca', descricao: 'Sugestões criativas de nome e identidade.', imagem: '/imagens/robo8.png', categoria: 'Marketing', link: '/robos/designer-nome-marca' },
+  { id: 9, nome: 'Influenciador TikTok', descricao: 'Ideias virais e roteiro para TikTok.', imagem: '/imagens/robo9.png', categoria: 'Marketing', link: '/robos/influenciador-tiktok' },
+  { id: 10, nome: 'Guia Negócios Digitais', descricao: 'Passo a passo para negócios online.', imagem: '/imagens/robo10.png', categoria: 'Estratégia', link: '/robos/guia-negocios-digitais' },
+  { id: 11, nome: 'Mentor Instagram', descricao: 'Crescimento e monetização no Instagram.', imagem: '/imagens/robo11.png', categoria: 'Marketing', link: '/robos/mentor-instagram' },
+  { id: 12, nome: 'Mentor Carreira', descricao: 'Orientações profissionais e de carreira.', imagem: '/imagens/robo12.png', categoria: 'Estratégia', link: '/robos/mentor-carreira' },
+  { id: 13, nome: 'Mentor Negócios Físicos', descricao: 'Consultoria para negócios físicos com IA.', imagem: '/imagens/robo13.png', categoria: 'Vendas', link: '/robos/mentor-negocios-fisicos' },
+  { id: 14, nome: 'Pitch Investidores', descricao: 'Apresentações impactantes para captar.', imagem: '/imagens/robo14.png', categoria: 'Vendas', link: '/robos/pitch-investidores' },
+  { id: 15, nome: 'Líder Treinador', descricao: 'Treinamento e liderança com IA.', imagem: '/imagens/robo15.png', categoria: 'Estratégia', link: '/robos/lider-treinador' },
+  { id: 16, nome: 'Terapeuta IA', descricao: 'Atendimento terapêutico automatizado.', imagem: '/imagens/robo16.png', categoria: 'Atendimento', link: '/robos/terapeuta-ia' },
+  { id: 17, nome: 'Gerente Clientes', descricao: 'Gestão de relacionamento e funil.', imagem: '/imagens/robo17.png', categoria: 'Vendas', link: '/robos/gerente-clientes' },
+  { id: 18, nome: 'Vendedor Automacoes', descricao: 'Scripts para WhatsApp e vendas.', imagem: '/imagens/robo18.png', categoria: 'Vendas', link: '/robos/vendedor-automacoes' },
+  { id: 19, nome: 'Vendedor Marketplace', descricao: 'Textos prontos para vendas em plataformas.', imagem: '/imagens/robo19.png', categoria: 'Vendas', link: '/robos/vendedor-marketplace' },
+  { id: 20, nome: 'Consultor Nome Marca', descricao: 'Naming e identidade de marca.', imagem: '/imagens/robo20.png', categoria: 'Marketing', link: '/robos/consultor-nome-marca' },
 ];
 
-const categorias = ['Todos', 'Marketing', 'Vendas', 'Atendimento', 'Estratégia'];
+const categorias = ['Todos', 'Marketing', 'Vendas', 'Estratégia', 'Atendimento'];
 
 export default function Robos() {
   const [filtro, setFiltro] = useState('Todos');
@@ -46,7 +49,7 @@ export default function Robos() {
   return (
     <Layout>
       <div className="pb-12">
-        <h1 className="text-3xl font-bold text-[#1746a2] mb-6"></h1>
+        <h1 className="text-3xl font-bold text-[#1746a2] mb-6">🤖 Lista de Robôs Inteligentes</h1>
 
         <div className="flex gap-3 flex-wrap mb-8">
           {categorias.map((cat) => (
@@ -81,9 +84,11 @@ export default function Robos() {
               </div>
               <h3 className="text-lg font-semibold text-[#1746a2]">{robo.nome}</h3>
               <p className="text-sm text-gray-600 mt-1 mb-4">{robo.descricao}</p>
-              <button className="bg-[#f4c95d] text-[#1a1a1a] px-4 py-2 rounded-full font-medium hover:bg-yellow-400 transition">
-                Acessar Robô
-              </button>
+              <Link href={robo.link}>
+                <button className="bg-[#f4c95d] text-[#1a1a1a] px-4 py-2 rounded-full font-medium hover:bg-yellow-400 transition">
+                  Acessar Robô
+                </button>
+              </Link>
             </div>
           ))}
         </div>

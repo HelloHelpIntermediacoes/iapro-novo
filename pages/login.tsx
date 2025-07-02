@@ -12,18 +12,16 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
-  const [acessoRestrito, setAcessoRestrito] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setErro('');
-    setAcessoRestrito(false);
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, senha);
       const usuario = userCredential.user;
 
-      // ⚠️ Verificação direta para conta admin (fixa)
+      // Verificação direta para conta admin
       if (email === 'fernanda@admin.com' && senha === '102034') {
         const usuarioAdmin = {
           uid: usuario.uid,
@@ -36,7 +34,7 @@ export default function Login() {
         return;
       }
 
-      // 🔎 Busca os dados no Firestore
+      // Busca os dados no Firestore
       const db = getFirestore();
       const docRef = doc(db, 'usuarios', usuario.uid);
       const docSnap = await getDoc(docRef);
@@ -50,19 +48,17 @@ export default function Login() {
         uid: usuario.uid,
         email: usuario.email,
         nome: dados?.nome || 'Usuário',
-        tipo: dados?.tipo || 'usuario', // Ex: admin, usuario
-        acesso: dados?.acesso || 'restrito', // acesso: 'liberado' ou 'restrito'
+        tipo: dados?.tipo || 'usuario',
+        acesso: 'liberado', // ← Liberação automática
       };
 
       localStorage.setItem('usuarioIAPro', JSON.stringify(usuarioCompleto));
 
-      // Redirecionamento com base no tipo e acesso
+      // Redireciona para admin ou dashboard direto
       if (usuarioCompleto.tipo === 'admin') {
         router.push('/admin');
-      } else if (usuarioCompleto.acesso === 'liberado') {
-        router.push('/dashboard');
       } else {
-        setAcessoRestrito(true);
+        router.push('/robos');
       }
 
     } catch (error: any) {
@@ -70,8 +66,6 @@ export default function Login() {
       setErro('E-mail ou senha inválidos ou usuário não registrado.');
     }
   };
-
-  const linkPagamento = 'https://www.paypal.com/paypalme/sualoja/97';
 
   return (
     <Layout>
@@ -124,26 +118,6 @@ export default function Login() {
           </p>
         </div>
       </div>
-
-      {/* Modal de acesso premium */}
-      {acessoRestrito && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-md flex items-center justify-center z-50">
-          <div className="bg-white p-10 rounded-2xl shadow-lg text-center max-w-md mx-auto border-2 border-[#f4c95d]">
-            <h2 className="text-xl font-bold mb-4 text-[#1746a2]">🚀 Acesso Premium Necessário</h2>
-            <p className="mb-4 text-gray-700">
-              Para desbloquear todos os robôs e integrar seu assistente Júnior ao GPT, ative o acesso premium com investimento de apenas <strong>R$ 97 via PayPal</strong>.
-            </p>
-            <a
-              href={linkPagamento}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#f4c95d] text-black font-bold px-6 py-2 rounded-full hover:brightness-110 transition"
-            >
-              💳 Pagar com PayPal
-            </a>
-          </div>
-        </div>
-      )}
     </Layout>
   );
 }

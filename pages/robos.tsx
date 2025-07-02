@@ -52,7 +52,11 @@ export default function Robos() {
     }
 
     const usuario = JSON.parse(userData);
-    if (usuario.acesso !== 'liberado') {
+
+    // ✅ Permite acesso para Fernanda SEM verificar acesso 'liberado'
+    const isFernanda = usuario.email === 'fernanda@admin.com';
+
+    if (!isFernanda && usuario.acesso !== 'liberado') {
       router.push('/login'); // ou '/bloqueado'
     }
   }, [router]);

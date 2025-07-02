@@ -41,7 +41,7 @@ const Sidebar = () => {
       {/* Rodapé - Assistente Júnior */}
       <div className="mt-12 text-center">
         <a
-          href="https://gpt.openai.com"
+          href="https://chatgpt.com/g/g-684de96b6b308191a45e49972afc1ea4-junior"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-300 text-[#1a1a1a] font-bold py-3 px-4 rounded-xl shadow-lg hover:from-yellow-300 hover:to-yellow-200 transition"

@@ -32,7 +32,7 @@ export default function Register() {
         nome,
         email,
         tipo: 'usuario', // padrão
-        acesso: 'pendente', // 🔒 ainda não liberado
+        acesso: 'liberado', // ✅ acesso liberado diretamente
         criadoEm: new Date(),
       };
 
@@ -40,11 +40,10 @@ export default function Register() {
       const docRef = doc(db, 'usuarios', usuarioFirebase.uid);
       await setDoc(docRef, usuario);
 
-      // Salva temporariamente no localStorage
       localStorage.setItem('usuarioIAPro', JSON.stringify(usuario));
 
-      // Redireciona para o pagamento (⚠️ substitua pelo link real do PayPal)
-      window.location.href = 'https://www.paypal.com/paypalme/SEULINKAQUI';
+      // ✅ Redireciona diretamente para a página de robôs
+      router.push('/robos');
 
     } catch (error: any) {
       console.error('Erro no registro:', error);

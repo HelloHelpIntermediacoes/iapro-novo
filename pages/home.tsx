@@ -55,18 +55,7 @@ export default function HomePage() {
           </a>
         </div>
 
-        {/* Lado direito: vídeo embutido */}
-        <div className="flex-1 w-full max-w-xl">
-          <div className="aspect-w-16 aspect-h-9 w-full">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="Vídeo de Apresentação"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-[315px] rounded-xl shadow-lg border border-gray-200"
-            ></iframe>
-          </div>
-        </div>
+        
       </main>
 
       <Footer />

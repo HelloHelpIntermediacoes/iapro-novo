@@ -1,23 +1,27 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { FaUserCircle, FaCogs, FaSignOutAlt } from 'react-icons/fa';
+import { FaUserCircle, FaCogs, FaSignOutAlt, FaBars } from 'react-icons/fa';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { firebaseConfig } from '../firebase/firebase';
 import { getApps, initializeApp, getApp } from 'firebase/app';
 import { useRouter } from 'next/navigation';
 
-const Topbar = () => {
+interface Props {
+  onMenuClick: () => void; // função passada pelo Layout para abrir o menu mobile
+}
+
+const Topbar: React.FC<Props> = ({ onMenuClick }) => {
   const [open, setOpen] = useState(false);
   const [nomeUsuario, setNomeUsuario] = useState('Usuário');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  // Firebase App e Firestore
+  // Firebase App
   const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
   const db = getFirestore(app);
 
-  // Fecha o dropdown se clicar fora
+  // Fecha dropdown se clicar fora
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -28,7 +32,7 @@ const Topbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Busca o nome atualizado do Firestore
+  // Busca nome no Firestore
   useEffect(() => {
     const fetchNome = async () => {
       if (typeof window === 'undefined') return;
@@ -60,10 +64,15 @@ const Topbar = () => {
 
   return (
     <header className="bg-white shadow-md h-20 flex items-center justify-between px-6 relative z-50">
-      {/* Logo ou título da plataforma */}
+      {/* Botão hambúrguer - só no mobile */}
+      <button onClick={onMenuClick} className="lg:hidden text-[#1746a2] mr-2">
+        <FaBars size={24} />
+      </button>
+
+      {/* Logo/título */}
       <h1 className="text-xl font-bold text-[#1746a2]">IA Pro</h1>
 
-      {/* Área do usuário */}
+      {/* Área do usuário com dropdown */}
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setOpen(!open)}

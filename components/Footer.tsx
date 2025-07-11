@@ -13,7 +13,7 @@ const Footer = () => {
 
         <div className="text-center md:text-left">
           <p>Email: contato@iaprostudio.com</p>
-          <p>Tel: (11) 99999-9999</p>
+          <p>Tel: +1 (801) 471-4622</p>
         </div>
 
         <div className="text-right text-gray-400">
